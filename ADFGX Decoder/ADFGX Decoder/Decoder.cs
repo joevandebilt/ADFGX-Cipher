@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace ADFGXDecoder
 {
@@ -30,7 +31,7 @@ namespace ADFGXDecoder
         List<string> MessagesToPrint = new List<string>();
         List<int> ThreadIDs = new List<int>();
         object mylock = new object();
-
+        
         public Decoder()
         {
             //Construct the initial form
@@ -280,11 +281,12 @@ namespace ADFGXDecoder
                     {
                         ctrl.Text = "";
                         ctrl.BackColor = Color.LightBlue;
-                        ctrl.DoubleClick += new EventHandler(ChangeColor);
+                        ctrl.DoubleClick += new EventHandler(ChangeColour);
                     }
                 }
             }
         }
+
 
         private void rdbDynamic_CheckedChanged(object sender, EventArgs e)
         {
@@ -296,15 +298,19 @@ namespace ADFGXDecoder
                     if (ctrl.Name.StartsWith("txtKey") && int.TryParse(ctrl.Name.Replace("txtKey", ""), out KeySquareNumber))
                     {
                         ctrl.BackColor = Color.White;
+                        ctrl.ForeColor = Color.Black;
+
                         if (KeySquareNumber > 9)
                             ctrl.Text = char.ConvertFromUtf32(KeySquareNumber + 65).ToString();
                         else
                             ctrl.Text = char.ConvertFromUtf32(KeySquareNumber + 64).ToString();
+
+                        //Remove the double click event from the control
+                        ctrl.DoubleClick -= new EventHandler(ChangeColour);
                     }
                 }
             }
         }
-    
         #endregion
 
         #region Form Update Methods
@@ -330,7 +336,7 @@ namespace ADFGXDecoder
             }
         }
 
-        private void ChangeColor(object sender, EventArgs e)
+        private void ChangeColour(object sender, EventArgs e)
         {
             if (rdbStatic.Checked)
             {
