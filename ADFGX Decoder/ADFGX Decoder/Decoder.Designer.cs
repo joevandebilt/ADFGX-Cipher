@@ -84,6 +84,8 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.txtOutput = new System.Windows.Forms.RichTextBox();
+            this.cmdClear = new System.Windows.Forms.Button();
+            this.cmdSaveToFile = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,7 +115,7 @@
             this.txtKeywords.Multiline = true;
             this.txtKeywords.Name = "txtKeywords";
             this.txtKeywords.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtKeywords.Size = new System.Drawing.Size(634, 49);
+            this.txtKeywords.Size = new System.Drawing.Size(700, 49);
             this.txtKeywords.TabIndex = 2;
             this.txtKeywords.Text = resources.GetString("txtKeywords.Text");
             // 
@@ -194,7 +196,7 @@
             this.panel1.Controls.Add(this.txtKey11);
             this.panel1.Controls.Add(this.txtKey6);
             this.panel1.Controls.Add(this.txtKey1);
-            this.panel1.Location = new System.Drawing.Point(688, 25);
+            this.panel1.Location = new System.Drawing.Point(740, 25);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(191, 507);
             this.panel1.TabIndex = 7;
@@ -639,7 +641,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(691, 5);
+            this.label1.Location = new System.Drawing.Point(737, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 13);
             this.label1.TabIndex = 8;
@@ -666,7 +668,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(31, 163);
+            this.label14.Location = new System.Drawing.Point(31, 190);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(44, 13);
             this.label14.TabIndex = 8;
@@ -676,15 +678,37 @@
             // 
             this.txtOutput.Location = new System.Drawing.Point(34, 206);
             this.txtOutput.Name = "txtOutput";
-            this.txtOutput.Size = new System.Drawing.Size(634, 326);
+            this.txtOutput.Size = new System.Drawing.Size(700, 326);
             this.txtOutput.TabIndex = 9;
             this.txtOutput.Text = "";
+            // 
+            // cmdClear
+            // 
+            this.cmdClear.Location = new System.Drawing.Point(34, 538);
+            this.cmdClear.Name = "cmdClear";
+            this.cmdClear.Size = new System.Drawing.Size(126, 21);
+            this.cmdClear.TabIndex = 10;
+            this.cmdClear.Text = "Clear Output Window";
+            this.cmdClear.UseVisualStyleBackColor = true;
+            this.cmdClear.Click += new System.EventHandler(this.cmdClear_Click);
+            // 
+            // cmdSaveToFile
+            // 
+            this.cmdSaveToFile.Location = new System.Drawing.Point(166, 538);
+            this.cmdSaveToFile.Name = "cmdSaveToFile";
+            this.cmdSaveToFile.Size = new System.Drawing.Size(126, 21);
+            this.cmdSaveToFile.TabIndex = 11;
+            this.cmdSaveToFile.Text = "Save Output to File";
+            this.cmdSaveToFile.UseVisualStyleBackColor = true;
+            this.cmdSaveToFile.Click += new System.EventHandler(this.cmdSaveToFile_Click);
             // 
             // Decoder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(911, 544);
+            this.ClientSize = new System.Drawing.Size(981, 571);
+            this.Controls.Add(this.cmdSaveToFile);
+            this.Controls.Add(this.cmdClear);
             this.Controls.Add(this.txtOutput);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
@@ -763,5 +787,7 @@
         private System.Windows.Forms.RadioButton rdbDynamic;
         private System.Windows.Forms.RadioButton rdbStatic;
         private System.Windows.Forms.RichTextBox txtOutput;
+        private System.Windows.Forms.Button cmdClear;
+        private System.Windows.Forms.Button cmdSaveToFile;
     }
 }

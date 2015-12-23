@@ -40,6 +40,7 @@ namespace ADFGXDecoder
             ProcessorThreadRunning = false;
             MessageThreadRunning = false;
             rdbDynamic.Checked = true;
+            txtOutput.SelectionTabs = new int[] { 90, 180, 270, 360 };
         }
         
         #endregion
@@ -55,31 +56,16 @@ namespace ADFGXDecoder
         {
             //Force each character to upper case
             //No lower case slobbery please
-            txtKey1.Text = txtKey1.Text.ToUpper();
-            txtKey2.Text = txtKey2.Text.ToUpper();
-            txtKey3.Text = txtKey3.Text.ToUpper();
-            txtKey4.Text = txtKey4.Text.ToUpper();
-            txtKey5.Text = txtKey5.Text.ToUpper();
-            txtKey6.Text = txtKey6.Text.ToUpper();
-            txtKey7.Text = txtKey7.Text.ToUpper();
-            txtKey8.Text = txtKey8.Text.ToUpper();
-            txtKey9.Text = txtKey9.Text.ToUpper();
-            txtKey10.Text = txtKey10.Text.ToUpper();
-            txtKey11.Text = txtKey11.Text.ToUpper();
-            txtKey12.Text = txtKey12.Text.ToUpper();
-            txtKey13.Text = txtKey13.Text.ToUpper();
-            txtKey14.Text = txtKey14.Text.ToUpper();
-            txtKey15.Text = txtKey15.Text.ToUpper();
-            txtKey16.Text = txtKey16.Text.ToUpper();
-            txtKey17.Text = txtKey17.Text.ToUpper();
-            txtKey18.Text = txtKey18.Text.ToUpper();
-            txtKey19.Text = txtKey19.Text.ToUpper();
-            txtKey20.Text = txtKey20.Text.ToUpper();
-            txtKey21.Text = txtKey21.Text.ToUpper();
-            txtKey22.Text = txtKey22.Text.ToUpper();
-            txtKey23.Text = txtKey23.Text.ToUpper();
-            txtKey24.Text = txtKey24.Text.ToUpper();
-            txtKey25.Text = txtKey25.Text.ToUpper();
+            foreach (Control ctrl in this.panel1.Controls)
+            {
+                if (ctrl.Name.StartsWith("txtKey"))
+                {
+                    if (!string.IsNullOrEmpty(ctrl.Text))
+                    {
+                        ctrl.Text = ctrl.Text.ToUpper().Trim();
+                    }
+                }
+            }
 
             //Clear the output window
             txtOutput.Clear();
@@ -128,6 +114,18 @@ namespace ADFGXDecoder
             }
             else
             {
+                //No lower case slobbery please
+                foreach (Control ctrl in this.panel1.Controls)
+                {
+                    if (ctrl.Name.StartsWith("txtKey"))
+                    {
+                        if (!string.IsNullOrEmpty(ctrl.Text))
+                        {
+                            ctrl.Text = ctrl.Text.ToUpper().Trim();
+                        }
+                    }
+                }
+
                 //invoke a randomizer class, seed it with a random number why not.
                 Random RNG = new Random((int)DateTime.Now.Ticks);
                 char[] Letters = new char[25];
@@ -311,6 +309,23 @@ namespace ADFGXDecoder
                 }
             }
         }
+
+        private void cmdClear_Click(object sender, EventArgs e)
+        {
+            txtOutput.Clear();
+        }
+
+        private void cmdSaveToFile_Click(object sender, EventArgs e)
+        {
+            string FilePath = Directory.GetCurrentDirectory();
+            string FileName = Path.Combine(FilePath, string.Format("ADFGXDecoder.{0}.txt", DateTime.Now.ToString("yyyyMMdd")));
+            using (StreamWriter sw = new StreamWriter(FileName))
+            {
+                sw.WriteLine(txtOutput.Text);
+                sw.Close();
+            }
+        }  
+
         #endregion
 
         #region Form Update Methods
@@ -389,7 +404,7 @@ namespace ADFGXDecoder
                         {
                             //Stick the output and the keysquare used to attain it in the messages queue
                             string KeySquareAsLine = GetKeySquareAsLine(Words.KeySquare);
-                            AddMessage(string.Format("[{2}] Output: {0}             KeySquare: {1}", val, KeySquareAsLine, Thread.CurrentThread.ManagedThreadId));
+                            AddMessage(string.Format("[{2}] Output: {0}\tKeySquare: {1}", val, KeySquareAsLine, Thread.CurrentThread.ManagedThreadId));
                         }
                     }
                 }
@@ -687,6 +702,7 @@ namespace ADFGXDecoder
         }
         
         #endregion
-                
+
+                      
     }
 }
