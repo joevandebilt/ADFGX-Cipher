@@ -6,7 +6,7 @@ $DB = new MySQL();
 if (!empty($_GET['KeySquare']))
 {
 	$KeySquare = $_GET['KeySquare'];
-	$DB->query("INSERT INTO ADFGX_Permutations (perm_keysquare, perm_deleted) VALUES ('".$KeySquare."',0)");
+	$DB->query("INSERT INTO ADFGX_Permutations (perm_keysquare, perm_deleted) VALUES ('". mysql_real_escape_string($KeySquare)."',0)");
 }
 elseif (!empty($_GET['DecodedKeySquare']))
 {
@@ -14,12 +14,12 @@ elseif (!empty($_GET['DecodedKeySquare']))
 	
 	$DB = new MySQL();
 	$Query = "UPDATE ADFGX_Permutations SET ";
-	$Query .= "perm_combination_1 = '".$_GET['val1']."'";
+	$Query .= "perm_combination_1 = '".mysql_real_escape_string($_GET['val1'])."'";
 	for ($i=2;$i<=48;$i++)
 	{
-		$Query .= ", perm_combination_".$i." = '".$_GET['val'.$i]."'";
+		$Query .= ", perm_combination_".$i." = '".mysql_real_escape_string($_GET['val'.$i])."'";
 	}
-	$Query .= " WHERE perm_keysquare = '".$KeySquare."'";
+	$Query .= " WHERE perm_keysquare = '".mysql_real_escape_string($KeySquare)."'";
 	
 	//echo $Query;
 	$DB->query($Query);
