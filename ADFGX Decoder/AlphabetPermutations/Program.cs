@@ -36,7 +36,10 @@ namespace AlphabetPermutations
             System.Net.WebClient wc = new System.Net.WebClient();
             string webData = wc.DownloadString(URL);
 
-            return webData;
+            if (webData == "-1")
+                return null;
+            else
+                return webData;
         }
 
         static void CalculatePermutations(string CurrentString, string[] AllowedChars)
@@ -72,6 +75,11 @@ namespace AlphabetPermutations
                         {
                             CalculatePermutations(AllowedCharacter, AllowedChars);
                         }
+                    }
+                    else
+                    {
+                        //The last Generated was null - we're the first entry :) 
+                        CalculatePermutations(AllowedCharacter, AllowedChars);
                     }
                     if (isError) break;
                 }

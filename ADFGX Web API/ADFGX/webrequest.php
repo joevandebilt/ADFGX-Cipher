@@ -37,9 +37,13 @@ elseif (!empty($_GET['GetLastPermutation']))
 {
 	$Query = "SELECT perm_keysquare FROM ADFGX_Permutations ORDER BY perm_keysquare DESC LIMIT 1";
 	$DB->query($Query);
-	$row = $DB->fetchObject();
-
-	$KeySquareResult = $row->perm_keysquare;
+	if ($DB->resultCount() > 0)
+	{
+		$row = $DB->fetchObject();
+		$KeySquareResult = $row->perm_keysquare;
+	}
+	else
+		$KeySquareResult = "-1";
 	echo $KeySquareResult;
 }
 ?>
