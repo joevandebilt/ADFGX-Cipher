@@ -555,9 +555,12 @@ namespace ADFGXDecoder
                     rowlength = strKeyArray[index].Length;
 
                     //Create a table that will be able to hold the ciphertext
-                    //The cipher is 12 rows by 6 columns
-                    table = new char[12, 6];
-                    SortedTable = new char[12, 6];
+                    //The cipher is () rows by rowlength columns
+                    
+                    int NumberOfRows = (int)Math.Ceiling((double)Input.Length / rowlength);
+
+                    table = new char[NumberOfRows, rowlength];
+                    SortedTable = new char[NumberOfRows, rowlength];
                     
                     //Get the full ciphertext including blank spaces
                     //Blank spaces denoted by '-'

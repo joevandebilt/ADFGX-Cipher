@@ -94,7 +94,6 @@
             this.txtInput.Location = new System.Drawing.Point(79, 80);
             this.txtInput.Multiline = true;
             this.txtInput.Name = "txtInput";
-            this.txtInput.ReadOnly = true;
             this.txtInput.Size = new System.Drawing.Size(589, 29);
             this.txtInput.TabIndex = 0;
             this.txtInput.Text = "FFGXGDGFFAGFGGDDGFFFXXFFFDGFFGFDGFFGFDGGFFFGFGAAFXFXDXXFXDGFFAGGFF----AF";
