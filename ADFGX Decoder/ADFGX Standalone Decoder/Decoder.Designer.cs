@@ -86,6 +86,7 @@
             this.txtOutput = new System.Windows.Forms.RichTextBox();
             this.cmdClear = new System.Windows.Forms.Button();
             this.cmdSaveToFile = new System.Windows.Forms.Button();
+            this.rtbTreeComposition = new System.Windows.Forms.RadioButton();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -701,11 +702,23 @@
             this.cmdSaveToFile.UseVisualStyleBackColor = true;
             this.cmdSaveToFile.Click += new System.EventHandler(this.cmdSaveToFile_Click);
             // 
+            // rtbTreeComposition
+            // 
+            this.rtbTreeComposition.AutoSize = true;
+            this.rtbTreeComposition.Location = new System.Drawing.Point(377, 166);
+            this.rtbTreeComposition.Name = "rtbTreeComposition";
+            this.rtbTreeComposition.Size = new System.Drawing.Size(91, 17);
+            this.rtbTreeComposition.TabIndex = 12;
+            this.rtbTreeComposition.TabStop = true;
+            this.rtbTreeComposition.Text = "Find Pair Tree";
+            this.rtbTreeComposition.UseVisualStyleBackColor = true;
+            // 
             // Decoder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(981, 571);
+            this.Controls.Add(this.rtbTreeComposition);
             this.Controls.Add(this.cmdSaveToFile);
             this.Controls.Add(this.cmdClear);
             this.Controls.Add(this.txtOutput);
@@ -788,5 +801,6 @@
         private System.Windows.Forms.RichTextBox txtOutput;
         private System.Windows.Forms.Button cmdClear;
         private System.Windows.Forms.Button cmdSaveToFile;
+        private System.Windows.Forms.RadioButton rtbTreeComposition;
     }
 }

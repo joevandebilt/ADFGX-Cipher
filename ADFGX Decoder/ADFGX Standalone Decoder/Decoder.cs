@@ -13,6 +13,13 @@ using System.Reflection;
 
 namespace ADFGXDecoder
 {
+    public struct TreeNode
+    {
+        public string Pair;
+        public string Parent;
+        public int Frequency;
+    }
+
     public partial class Decoder : Form
     {
         #region Data Types
@@ -82,7 +89,7 @@ namespace ADFGXDecoder
                     //If we're looking for decoded text it will have been handled by the method, just dump it out
                     txtOutput.Text = string.Concat(txtOutput.Text, Environment.NewLine, Words[counter]);
                 }
-                else if (radioButton1.Checked)
+                else if (radioButton1.Checked || rtbTreeComposition.Checked)
                 {
                     //Split the output into comma seperated pairs
                     //Makes it a bit easier on the eyes
@@ -91,6 +98,13 @@ namespace ADFGXDecoder
                     for (int i = 2; i < Words[counter].Length; i = i + 2)
                     {
                         txtOutput.AppendText(string.Format(",{0}",Words[counter].Substring(i, 2)));
+                    }
+
+                    if (rtbTreeComposition.Checked)
+                    {
+                        txtOutput.Clear();
+
+                        TreeNode[] TreeNodes = new TreeNode[34];
                     }
                 }
             }

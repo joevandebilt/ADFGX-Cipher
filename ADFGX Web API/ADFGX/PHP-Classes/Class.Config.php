@@ -90,7 +90,7 @@ class Config {
 	* @return void Returns nothing.
 	* @access public
 	*/
-	function Config($path = null){
+	function __construct($path = null){
 		// Check parameter
 		if ($path == null) {
 			$this->load($this->_path);

@@ -1,12 +1,12 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT'].'/Classes/Class.Main-Classes.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/PHP-Classes/Class.PHP-Classes.php');
 $DB = new MySQL();
 
 if (!empty($_GET['KeySquare']))
 {
 	$KeySquare = $_GET['KeySquare'];
-	$DB->query("INSERT INTO ADFGX_Permutations (perm_keysquare, perm_deleted) VALUES ('". mysql_real_escape_string($KeySquare)."',0)");
+	$DB->query("INSERT INTO ADFGX_Permutations (perm_keysquare, perm_status, perm_last_updated) VALUES ('".$DB->cleanString($KeySquare)."', 0,NOW())");
 }
 elseif (!empty($_GET['DecodedKeySquare']))
 {
@@ -14,12 +14,12 @@ elseif (!empty($_GET['DecodedKeySquare']))
 	
 	$DB = new MySQL();
 	$Query = "UPDATE ADFGX_Permutations SET ";
-	$Query .= "perm_combination_1 = '".mysql_real_escape_string($_GET['val1'])."'";
+	$Query .= "perm_combination_1 = '".$DB->cleanString($_GET['val1'])."'";
 	for ($i=2;$i<=48;$i++)
 	{
-		$Query .= ", perm_combination_".$i." = '".mysql_real_escape_string($_GET['val'.$i])."'";
+		$Query .= ", perm_combination_".$i." = '".$DB->cleanString($_GET['val'.$i])."'";
 	}
-	$Query .= " WHERE perm_keysquare = '".mysql_real_escape_string($KeySquare)."'";
+	$Query .= " WHERE perm_keysquare = '".$DB->cleanString($KeySquare)."'";
 	
 	//echo $Query;
 	$DB->query($Query);
@@ -37,6 +37,7 @@ elseif (!empty($_GET['GetLastPermutation']))
 {
 	$Query = "SELECT perm_keysquare FROM ADFGX_Permutations ORDER BY perm_keysquare DESC LIMIT 1";
 	$DB->query($Query);
+
 	if ($DB->resultCount() > 0)
 	{
 		$row = $DB->fetchObject();

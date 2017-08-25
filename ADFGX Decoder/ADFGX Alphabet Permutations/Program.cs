@@ -14,6 +14,8 @@ namespace AlphabetPermutations
         static string LastGenerated = string.Empty;
         static bool isError = false;
 
+        private static string _EndPoint = "https://adfgx.nkode.uk/webrequest.php";
+
         static void Main(string[] args)
         {
             Console.WriteLine("Calculating some shit");
@@ -30,9 +32,23 @@ namespace AlphabetPermutations
             Console.WriteLine("\n\nClosing Application");
         }
 
+        private string constructURL(Dictionary<string, string> arguments)
+        {
+            string URI = _EndPoint;
+            if (arguments.Count > 0)
+            {
+                URI = string.Format("{0}?", URI);
+                foreach (var entry in arguments)
+                {
+                    URI = string.Format("{0}&{1}={2}", URI, entry.Key, entry.Value);
+                }
+            }
+            return URI;
+        }
+
         static string GetLastGenerated()
         {
-            string URL = "http://adfgx.vandebilt.co/webrequest.php?GetLastPermutation=true";
+            string URL = "https://adfgx.nkode.uk/webrequest.php?GetLastPermutation=true";
             System.Net.WebClient wc = new System.Net.WebClient();
             string webData = wc.DownloadString(URL);
 
@@ -51,7 +67,7 @@ namespace AlphabetPermutations
                 Console.WriteLine(CurrentString);
                 try
                 {   
-                    string URL = string.Format("http://adfgx.vandebilt.co/webrequest.php?KeySquare={0}", CurrentString);
+                    string URL = string.Format("https://adfgx.nkode.uk/webrequest.php?KeySquare={0}", CurrentString);
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                     LastGenerated = string.Empty; //reset this since we should be up to date now
@@ -108,8 +124,8 @@ namespace AlphabetPermutations
 
         static void SendMail()
         {
-            string To = "Joe@vandebilt.co";
-            string From = "ADFGX@vandebilt.co";
+            string To = "joe.vandebilt@nkode.uk";
+            string From = "ADFGX@nkode.uk";
             MailMessage message = new MailMessage(From, To);
             message.Subject = "Permutation service has stopped running";
             if (isError)
@@ -117,8 +133,7 @@ namespace AlphabetPermutations
             else
                 message.Body = "The service has stopped running, the isError status is currently set to false.";
 
-            SmtpClient client = new SmtpClient("mail.vandebilt.co");
-            client.Credentials = new NetworkCredential("joe.vandebilt", "xFate2009");
+            SmtpClient client = new SmtpClient("mail.nkode.uk");
 
             try 
             {
@@ -128,6 +143,7 @@ namespace AlphabetPermutations
             {
                 Console.WriteLine("Exception caught in CreateTestMessage2(): {0}", 
                 ex.ToString() );
+                Console.ReadLine();
             }
         }
     }
