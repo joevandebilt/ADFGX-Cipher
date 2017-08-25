@@ -41,5 +41,23 @@ class DataInterface
         }
         return $KeySquares;
     }
+
+    public function SaveKeySquare($DB, $ID, $KeySquare, $KeySquareResults)
+    {
+        $SQL = "UPDATE ADFGX_Permutations SET perm_status = 2";
+        for ($x=0; $x < COUNT($KeySquareResults); $x++)
+        {
+            $SQL .= ", perm_combination_".($x+1)." = '".$KeySquareResults[$x]."'";
+        }
+        $SQL .= "WHERE perm_keysquare = '".$KeySquare."' PERM_AUS_ID = ".$ID;
+    }
+    
+    public function SaveKeySquares($DB, $ID, $ResultsArray)
+    {
+        foreach ($ResultsArray as $Key)
+        {
+            $this->SaveKeySquare($DB, $ID, $key->KeySquare, $key->KeySquareResults);
+        }
+    }
 }
 ?>
