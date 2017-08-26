@@ -43,6 +43,12 @@ function APIGetKeySquares(Limit, CallbackFunction)
 	SendJSONPacket(DataPacket, CallbackFunction);
 }
 
+function APISaveResults(ResultsTable, CallbackFunction)
+{
+	var DataPacket = ConstructDataPacket("SaveKeySquares", ResultsTable);
+	SendJSONPacket(DataPacket, CallbackFunction);
+}
+
 
 /* 
 	API OPERATION FUNCTIONS 

@@ -26,10 +26,10 @@ class DataInterface
 
     public function GetKeySquares($DB, $ID, $Limit)
     {
-        $SQL = "UPDATE ADFGX_Permutations SET perm_status = 1, perm_aus_id = ".$ID." WHERE perm_status = 0 LIMIT ".$Limit;
+        $SQL = "UPDATE ADFGX_Permutations SET perm_status = 1, perm_aus_id = ".$DB->cleanString($ID).", perm_last_updated = NOW() WHERE perm_status = 0 LIMIT ".$DB->cleanString($Limit);
         $DB->query($SQL);
 
-        $SQL = "SELECT * FROM ADFGX_Permutations WHERE perm_status = 1 AND perm_aus_id = ".$ID;
+        $SQL = "SELECT * FROM ADFGX_Permutations WHERE perm_status = 1 AND perm_aus_id = ".$DB->cleanString($ID);
         $DB->query($SQL);
 
         $KeySquares = array();
@@ -44,20 +44,28 @@ class DataInterface
 
     public function SaveKeySquare($DB, $ID, $KeySquare, $KeySquareResults)
     {
-        $SQL = "UPDATE ADFGX_Permutations SET perm_status = 2";
+        $SQL = "UPDATE ADFGX_Permutations SET perm_status = 2, perm_last_updated = NOW()";
         for ($x=0; $x < COUNT($KeySquareResults); $x++)
         {
-            $SQL .= ", perm_combination_".($x+1)." = '".$KeySquareResults[$x]."'";
+            $SQL .= ", perm_combination_" . ($x+1) . " = '" . $DB->cleanString($KeySquareResults[$x]) . "'";
         }
-        $SQL .= "WHERE perm_keysquare = '".$KeySquare."' PERM_AUS_ID = ".$ID;
+        $SQL .= " WHERE perm_keysquare = '".$DB->cleanString($KeySquare)."' AND PERM_AUS_ID = ".$DB->cleanString($ID);
+        $DB->query($SQL);
+
+        return !$DB->hasErrors();
     }
     
     public function SaveKeySquares($DB, $ID, $ResultsArray)
     {
+        $Success = true;
         foreach ($ResultsArray as $Key)
         {
-            $this->SaveKeySquare($DB, $ID, $key->KeySquare, $key->KeySquareResults);
+            if (!$this->SaveKeySquare($DB, $ID, $Key->KeySquare, $Key->KeySquareResults))
+            {
+                $Success=false;
+            }
         }
+        return $Success;
     }
 }
 ?>

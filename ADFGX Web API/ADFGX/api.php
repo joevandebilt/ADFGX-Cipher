@@ -43,9 +43,10 @@ if (isset($_POST["Request"]))
                 $KeySquares = $DI->GetKeySquares($DB, $UserID, $RequestObject->Data);
                 $Response->ResponseObject = $KeySquares;
             }
-            elseif ($RequestObject->Command == "SubmitKeySquare")
+            elseif ($RequestObject->Command == "SaveKeySquares")
             {
-
+                $Success = $DI->SaveKeySquares($DB, $UserID, $RequestObject->Data);
+                $Response->ResponseObject = $Success;
             }
             else
             {
