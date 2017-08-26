@@ -21,21 +21,27 @@ Keysquare Batch Size: <select id="ddlBandwidth">
         <option value=500>500</option>
 </select>
 <button id=cmdStart onclick="GetKeySquares();">Start Decoding</button><button id=cmdStop onclick="StopProcessing();">Stop Decoding</button><br><br>
-<div id="ResultsPane">
-    KeySquares Processed
-    <h2 id=ProcessedBanner>0</h2>
-</div>
+<div id="ResultsPane"></div><br>
+KeySquares Processed<h2 id=ProcessedBanner>0</h2>
 </center>
 
 <script>
-var StopProcessing;
+var bStopProcessing;
 $( document ).ready(function() { document.getElementById("cmdStop").disabled = true; });
+
+    function StopProcessing()
+    {
+        bStopProcessing = true;
+        document.getElementById("cmdStart").disabled = false;
+        document.getElementById("cmdStop").disabled = true;   
+    }
 
     function GetKeySquares()
     {
-        StopProcessing = false;
+        bStopProcessing = false;
         document.getElementById("cmdStart").disabled = true;
         document.getElementById("cmdStop").disabled = false;
+        document.getElementById("ResultsPane").innerHTML = "<p>Starting Decoder process</p>"
         var limit = document.getElementById("ddlBandwidth").value;
         APIGetKeySquares(limit, function(KeySquares) {
 
@@ -51,28 +57,27 @@ $( document ).ready(function() { document.getElementById("cmdStop").disabled = t
                 }        
                 console.log("Finished Decoding This Packet");
                 var NewProcessedVal = parseInt(document.getElementById("ProcessedBanner").innerHTML) + KeySquares.length;
-                console.log(NewProcessedVal);
                 document.getElementById("ProcessedBanner").innerHTML = NewProcessedVal;
+
+                APISaveResults(ResultsTable, function(Success) {
+                    if (Success && !bStopProcessing) {
+                        GetKeySquares();
+                    }
+                    else if(!Success) {
+                        document.getElementById("ResultsPane").innerHTML = "<p>Failure to save keysquare results. Stopping Decoder</p>";
+                        StopProcessing();
+                    }
+                    else if (bStopProcessing) {
+                        document.getElementById("ResultsPane").innerHTML = "<p>Stopping decoder processes</p>";
+                        StopProcessing();
+                    }
+                });
             }
             else 
             {
-                ResultsHTML = "<p>No Results Found</p>";
-            }
-            APISaveResults(ResultsTable, function(Success) {
-                if (Success && !StopProcessing) {
-                    GetKeySquares();
-                }
-                else {
-                    
-                }
-            });
+                document.getElementById("ResultsPane").innerHTML = "<p>No keysquares found. Stopping decoder until more can be generated</p>";
+                StopProcessing();
+            }            
         });
-    }
-
-    function StopProcessing()
-    {
-        StopProcessing = true;
-        document.getElementById("cmdStart").disabled = false;
-        document.getElementById("cmdStop").disabled = true;   
     }
 </script>
