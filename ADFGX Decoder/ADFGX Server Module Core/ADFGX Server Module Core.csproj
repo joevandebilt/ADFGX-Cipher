@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <StartupObject>ADFGX_SERVER_MODULE_CORE.Program</StartupObject>
+    <Platforms>AnyCPU;x64</Platforms>
+    <RootNamespace>ADFGX_SERVER_MODULE_CORE</RootNamespace>
+    <AssemblyName>ADFGX Server Module</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.8-dmr" />
+  </ItemGroup>
+
+</Project>
