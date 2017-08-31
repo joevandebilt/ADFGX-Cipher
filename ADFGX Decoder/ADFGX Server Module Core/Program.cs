@@ -9,12 +9,13 @@ namespace ADFGX_SERVER_MODULE_CORE
 {
     class Program
     {
-        static string ConnectionString = "server=localhost;port=3306;database=ADFGX;user=ADFGX;password=0a9hw6IskmUZ2myf@";
+        static string ConnectionString = "server=mysql.nkode.uk;port=3306;database=ADFGX;user=ADFGX;password=0a9hw6IskmUZ2myf@";
         static MySqlConnection _MySql;
 
         //Services
         static ADFGX_SERVICE_INTERFACE Permutations;
-        
+        static ADFGX_SERVICE_INTERFACE WordPruner;
+
         static void Main(string[] args)
         {
             try
@@ -38,6 +39,7 @@ namespace ADFGX_SERVER_MODULE_CORE
 
                 //Init Services
                 Permutations = new ADFGX_PERMUTATIONS();
+                WordPruner = new ADFGX_WORD_PRUNER();
 
                 //Start User Input
                 Console.WriteLine("Connection Established - awaiting input");
@@ -128,15 +130,16 @@ namespace ADFGX_SERVER_MODULE_CORE
                     }
                     else if (Input.Contains("HELP"))
                     {
-                        Console.WriteLine("--- Available Commands ---");
+                        Console.WriteLine("\n--- Available Commands ---");
                         Console.WriteLine("START SERVICE <Service Name>");
                         Console.WriteLine("STOP SERVICE <Service Name>");
                         Console.WriteLine("RESTART SERVICE <Service Name>");
                         Console.WriteLine("SERVICE STATUS <Service Name>");
                         Console.WriteLine("QUIT");
 
-                        Console.WriteLine("--- Available Services ---");
+                        Console.WriteLine("\n--- Available Services ---");
                         Console.WriteLine("PERMUTATIONS - Caluclates Keysquare permutations");
+                        Console.WriteLine("WORDPRUNER- Prunes Keysquare that are gibberish");
                     }
 
                     Console.Write("\n>");
@@ -184,6 +187,10 @@ namespace ADFGX_SERVER_MODULE_CORE
             if (ServiceName == "PERMUTATIONS")
             {
                 ChosenService = Permutations;
+            }
+            else if (ServiceName == "WORDPRUNER")
+            {
+                ChosenService = WordPruner;
             }
             else
             {
