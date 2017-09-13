@@ -67,5 +67,35 @@ class DataInterface
         }
         return $Success;
     }
+
+    public function GetCalcEntryPoint($DB, $ID, $Iterations)
+    {
+        //Init our values
+        $StartPoint = 0;
+        $LastPoint = 0;
+        $LastKey = "";
+
+        //Get the last keysquare submitted as an entry point
+        $SQL = "CALL ADFGX_GetEntryPoint(".$DB->cleanString($Iterations).")";
+        $DB->query($SQL);
+        while ($row = $DB->fetchObject())
+		{
+            if ($row->p_key == "EntryVal")
+            {
+                $LastPoint = $row->p_val;
+            }
+            elseif ($row->p_key == "EntryKey")
+            {
+                $LastKey = $row->p_val;
+            }
+            elseif ($row->p_key == "NextPoint")
+            {
+                $StartPoint = $row->p_val;
+            }
+        }
+
+        //We now have the last keysquare saved to the system, what entry point we need and how many iterations we need
+        return array("LastPoint"=>$LastPoint, "LastKey"=>$LastKey, "NextPoint"=>$StartPoint);
+    }
 }
 ?>

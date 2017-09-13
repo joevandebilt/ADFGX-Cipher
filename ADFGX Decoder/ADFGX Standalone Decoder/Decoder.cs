@@ -247,7 +247,7 @@ namespace ADFGXDecoder
                         cmdLongWay.Text = "Stop Running";
                     }
                 }
-                else txtOutput.Text = "Enter a keyword or suffer the forkbomb";
+                else txtOutput.Text = "Enter a keyword to search for or suffer the forkbomb";
             }
             else
             {

@@ -171,3 +171,74 @@
         }
         return PairValue;
     }
+
+
+    function GenerateKeySquares(EntryPos, EntryKey, StartPos, Iterations)
+    {
+        EntryPos = parseInt(EntryPos);
+        StartPos = parseInt(StartPos);
+        Iterations = parseInt(Iterations);
+
+        var KeyMap = EntryKey.split('|');
+        for (j=0; j<KeyMap.length;j++)
+        {
+            KeyMap[j] = parseInt(KeyMap[j]);
+        }
+
+        var KeySquares = Array();
+        var Difference = StartPos - EntryPos;
+        console.log('I need to calculate ' + (Iterations + Difference) + ' keysquares. I need to skip ' + Difference);
+
+        for (i = 1; i <= (Iterations + Difference); i++)
+        {
+            console.log('(' + i + '/' + (Iterations + Difference) + ') Start');
+            KeyMap = IncrementPosition(KeyMap);
+            if (i > Difference)
+            {   
+                KeySquares.push(TranslateCharMap(KeyMap));
+            }
+        }
+        return KeySquares;        
+    }
+
+    function IncrementPosition(KeyMap)
+    {
+        var TempMapping = KeyMap.slice(0);
+        TempMapping.pop();
+
+        var NewChar = KeyMap[KeyMap.length-1] + 1;
+        while (ArrayContains(TempMapping, NewChar) || NewChar > 25)
+        {
+            NewChar++;
+            if (NewChar > 25)
+            {
+                TempMapping = IncrementPosition(TempMapping);
+                NewChar = 1;
+            }
+        }
+        TempMapping.push(NewChar);
+        return TempMapping;
+    }
+
+    function ArrayContains(a, Value)
+    {
+        var x = a.length;
+        while (x--) {
+            if (a[x] === Value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function TranslateCharMap(CharMap)
+    {
+        var Output = "";
+        var Offset = 0;
+        for (y=0; y<CharMap.length;y++)
+        {
+            if (y > 9) Offset = 1;
+            Output += String.fromCharCode(64 + CharMap[y] + Offset);
+        }
+        return Output;
+    }

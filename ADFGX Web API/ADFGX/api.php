@@ -48,6 +48,16 @@ if (isset($_POST["Request"]))
                 $Success = $DI->SaveKeySquares($DB, $UserID, $RequestObject->Data);
                 $Response->ResponseObject = $Success;
             }
+            elseif ($RequestObject->Command == "GetCalcEntryPoint")
+            {
+                $KeySquares = $DI->GetCalcEntryPoint($DB, $UserID, $RequestObject->Data);
+                $Response->ResponseObject = $KeySquares;
+            }
+            elseif ($RequestObject->Command == "SaveValidAnswers")
+            {
+                $Success = $DI->SaveValidAnswers($DB, $UserID, $RequestObject->Data);
+                $Response->ResponseObject = $Success;
+            }
             else
             {
                 $Response->AddErrorMessage("Command not recognised.");

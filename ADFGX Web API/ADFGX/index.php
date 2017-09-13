@@ -20,7 +20,8 @@ Keysquare Batch Size: <select id="ddlBandwidth">
         <option value=400>400</option>
         <option value=500>500</option>
 </select>
-<button id=cmdStart onclick="GetKeySquares();">Start Decoding</button><button id=cmdStop onclick="StopProcessing();">Stop Decoding</button><br><br>
+<button id=cmdStart onclick="DecoderTick();">Start Decoding</button><button id=cmdStop onclick="StopProcessing();">Stop Decoding</button><br><br>
+<!--<button onclick="TestNewFeature();">Test New Feature</button>-->
 <div id="ResultsPane"></div><br>
 KeySquares Processed<h2 id=ProcessedBanner>0</h2>
 </center>
@@ -36,32 +37,43 @@ $( document ).ready(function() { document.getElementById("cmdStop").disabled = t
         document.getElementById("cmdStop").disabled = true;   
     }
 
-    function GetKeySquares()
+    function DecoderTick()
     {
         bStopProcessing = false;
         document.getElementById("cmdStart").disabled = true;
         document.getElementById("cmdStop").disabled = false;
         document.getElementById("ResultsPane").innerHTML = "<p>Starting Decoder process</p>"
-        var limit = document.getElementById("ddlBandwidth").value;
-        APIGetKeySquares(limit, function(KeySquares) {
+        var Limit = document.getElementById("ddlBandwidth").value;
+       
+        APIGetCalcEntryPoint(Limit, function(EntryPoint) 
+        {
+            console.log('Generating KeySquares');
+            var KeySquares = GenerateKeySquares(EntryPoint.LastPoint, EntryPoint.LastKey, EntryPoint.NextPoint, Limit);
 
             var ResultsHTML;
             var ResultsTable = new Array();
             if (KeySquares.length > 0)
             {
+                console.log('Decoding those keysquares');
                 for (i=0; i < KeySquares.length; i++)
                 {
                     //console.log("Decoding keysquare " + (i + 1) + " of " + KeySquares.length);
                     var DecodedResults = DecodeKeySquare(KeySquares[i]);
                     ResultsTable[i] = { "KeySquare":KeySquares[i], "KeySquareResults":DecodedResults };
                 }        
-                console.log("Finished Decoding This Packet");
+                console.log("Finished Decoding this Packet");
                 var NewProcessedVal = parseInt(document.getElementById("ProcessedBanner").innerHTML) + KeySquares.length;
                 document.getElementById("ProcessedBanner").innerHTML = NewProcessedVal;
 
+                /*
+
+                //Start Language Interface
+
                 APISaveResults(ResultsTable, function(Success) {
                     if (Success && !bStopProcessing) {
-                        GetKeySquares();
+                        document.getElementById("ResultsPane").innerHTML = "<p>Completed Tick without issue.</p>";
+                        StopProcessing();
+                        //DecoderTick();
                     }
                     else if(!Success) {
                         document.getElementById("ResultsPane").innerHTML = "<p>Failure to save keysquare results. Stopping Decoder</p>";
@@ -72,12 +84,18 @@ $( document ).ready(function() { document.getElementById("cmdStop").disabled = t
                         StopProcessing();
                     }
                 });
+
+                */
+                console.log(ResultsTable);
+
+                document.getElementById("ResultsPane").innerHTML = "<p>Completed Tick without issue.</p>";
+                StopProcessing();
             }
             else 
             {
                 document.getElementById("ResultsPane").innerHTML = "<p>No keysquares found. Stopping decoder until more can be generated</p>";
                 StopProcessing();
-            }            
-        });
+            }
+        });            
     }
 </script>

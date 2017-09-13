@@ -49,6 +49,12 @@ function APISaveResults(ResultsTable, CallbackFunction)
 	SendJSONPacket(DataPacket, CallbackFunction);
 }
 
+function APIGetCalcEntryPoint(Interval, CallbackFunction)
+{
+	var DataPacket = ConstructDataPacket("GetCalcEntryPoint", Interval);
+	SendJSONPacket(DataPacket, CallbackFunction);
+}
+
 
 /* 
 	API OPERATION FUNCTIONS 
