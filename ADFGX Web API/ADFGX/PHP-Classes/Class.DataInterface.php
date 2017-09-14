@@ -42,19 +42,6 @@ class DataInterface
         return $KeySquares;
     }
 
-    public function SaveKeySquare($DB, $ID, $KeySquare, $KeySquareResults)
-    {
-        $SQL = "UPDATE ADFGX_Permutations SET perm_status = 2, perm_last_updated = NOW()";
-        for ($x=0; $x < COUNT($KeySquareResults); $x++)
-        {
-            $SQL .= ", perm_combination_" . ($x+1) . " = '" . $DB->cleanString($KeySquareResults[$x]) . "'";
-        }
-        $SQL .= " WHERE perm_keysquare = '".$DB->cleanString($KeySquare)."' AND PERM_AUS_ID = ".$DB->cleanString($ID);
-        $DB->query($SQL);
-
-        return !$DB->hasErrors();
-    }
-    
     public function SaveKeySquares($DB, $ID, $ResultsArray)
     {
         $Success = true;
@@ -66,6 +53,19 @@ class DataInterface
             }
         }
         return $Success;
+    }
+
+    public function SaveKeySquare($DB, $ID, $KeySquare, $KeySquareResults)
+    {
+        $SQL = "UPDATE ADFGX_Permutations SET perm_status = 2, perm_last_updated = NOW()";
+        for ($x=0; $x < COUNT($KeySquareResults); $x++)
+        {
+            $SQL .= ", perm_combination_" . ($x+1) . " = '" . $DB->cleanString($KeySquareResults[$x]) . "'";
+        }
+        $SQL .= " WHERE perm_keysquare = '".$DB->cleanString($KeySquare)."' AND PERM_AUS_ID = ".$DB->cleanString($ID);
+        $DB->query($SQL);
+
+        return !$DB->hasErrors();
     }
 
     public function GetCalcEntryPoint($DB, $ID, $Iterations)
@@ -96,6 +96,55 @@ class DataInterface
 
         //We now have the last keysquare saved to the system, what entry point we need and how many iterations we need
         return array("LastPoint"=>$LastPoint, "LastKey"=>$LastKey, "NextPoint"=>$StartPoint);
+    }
+
+    public function RecordKeySquareGeneration($DB, $ID, $CharMap, $EntryPoint)
+    {
+        $SQL = "UPDATE ADFGX_Permutation_Keys SET perm_value = CASE ";
+        $SQL .= " WHEN perm_key = 'EntryKey' THEN '".$DB->cleanString($CharMap)."'";
+        $SQL .= " ELSE ".$DB->cleanString($EntryPoint)." END,";
+        $SQL .= " perm_last_updated = NOW(), perm_aus_id = ".$DB->cleanString($ID);
+        $SQL .= " WHERE perm_key = 'EntryKey' OR perm_key = 'EntryVal'";
+        $DB->query($SQL);
+        return !$DB->hasErrors();
+    }
+
+    public function SaveValidAnswers($DB, $ID, $ResultsArray)
+    {
+        $Success = true;
+        foreach ($ResultsArray as $Key)
+        {
+            if (!$this->SaveValidResults($DB, $ID, $Key->KeySquare, $Key->CipherText, $Key->MatchingWords))
+            {
+                $Success = false;
+            }
+        }
+        return $Success;
+    }
+
+    public function SaveValidResults($DB, $ID, $KeySquare, $CipherText, $MatchingWords)
+    {
+        $SQL = "INSERT INTO ADFGX_Valid (VAL_KEYSQUARE, VAL_CIPHER_TEXT, VAL_MATCHING_WORDS) VALUES (";
+        $SQL .= "'".$DB->cleanString($KeySquare)."', ";
+        $SQL .= "'".$DB->cleanString($CipherText)."', ";
+        $SQL .= "'".$DB->cleanString($MatchingWords)."')";
+        $DB->query($SQL);
+
+        return (!$DB->hasErrors());
+    }
+
+    public function GetDictionary($DB)
+    {
+        $SQL = "SELECT * FROM ADFGX_Common_Words";
+        $DB->query($SQL);
+        $i = 0;
+        $Dictionary = array();
+        while ($row = $DB->fetchObject())
+		{
+            $Dictionary[$i] = $row->ACW_VAL;
+            $i++;
+        }        
+        return $Dictionary;
     }
 }
 ?>

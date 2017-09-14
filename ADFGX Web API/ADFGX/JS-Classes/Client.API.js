@@ -49,9 +49,27 @@ function APISaveResults(ResultsTable, CallbackFunction)
 	SendJSONPacket(DataPacket, CallbackFunction);
 }
 
+function APIRecordKeySquareGeneration(GenerationInfo, CallbackFunction)
+{
+	var DataPacket = ConstructDataPacket("RecordKeySquareGeneration", GenerationInfo);
+	SendJSONPacket(DataPacket, CallbackFunction);
+}
+
+function APISaveValidAnswers(ResultsTable, CallbackFunction)
+{
+	var DataPacket = ConstructDataPacket("SaveValidAnswers", ResultsTable);
+	SendJSONPacket(DataPacket, CallbackFunction);
+}
+
 function APIGetCalcEntryPoint(Interval, CallbackFunction)
 {
 	var DataPacket = ConstructDataPacket("GetCalcEntryPoint", Interval);
+	SendJSONPacket(DataPacket, CallbackFunction);
+}
+
+function APIGetDictionary(CallbackFunction)
+{
+	var DataPacket = ConstructDataPacket("GetDictionary", null);
 	SendJSONPacket(DataPacket, CallbackFunction);
 }
 

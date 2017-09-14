@@ -53,10 +53,20 @@ if (isset($_POST["Request"]))
                 $KeySquares = $DI->GetCalcEntryPoint($DB, $UserID, $RequestObject->Data);
                 $Response->ResponseObject = $KeySquares;
             }
+            elseif ($RequestObject->Command == "RecordKeySquareGeneration")
+            {
+                $Success = $DI->RecordKeySquareGeneration($DB, $UserID, $RequestObject->Data->CharMap, $RequestObject->Data->EntryPoint);
+                $Response->ResponseObject = $Success;
+            }
             elseif ($RequestObject->Command == "SaveValidAnswers")
             {
                 $Success = $DI->SaveValidAnswers($DB, $UserID, $RequestObject->Data);
                 $Response->ResponseObject = $Success;
+            }
+            elseif ($RequestObject->Command == "GetDictionary")
+            {
+                $Dictionary = $DI->GetDictionary($DB);
+                $Response->ResponseObject = $Dictionary;
             }
             else
             {

@@ -186,7 +186,7 @@
         }
 
         var KeySquares = Array();
-        var Difference = StartPos - EntryPos;
+        var Difference = StartPos - EntryPos -1;
         console.log('I need to calculate ' + (Iterations + Difference) + ' keysquares. I need to skip ' + Difference);
 
         for (i = 1; i <= (Iterations + Difference); i++)
@@ -241,4 +241,33 @@
             Output += String.fromCharCode(64 + CharMap[y] + Offset);
         }
         return Output;
+    }
+
+    function ParseCipherText(WordsArray, CipherText)
+    {
+        var Matches = "";
+        for(a=0; a < WordsArray.length; a++)
+        {
+            if (CipherText.toUpperCase().includes(WordsArray[a].toUpperCase()))
+            {
+                Matches += WordsArray[a] + " ";
+            }
+        }
+        return Matches.trim();
+    }
+
+    function ToCharMap(CharMap)
+    {
+        var Mapped = "";
+        for (x=0; x<CharMap.length; x++)
+        {
+            var CharVal = CharMap.charCodeAt(x) - 64;
+            
+            if (CharVal > 10)
+                CharVal--;
+
+            Mapped += CharVal + "|";
+        }
+
+        return Mapped.substr(0, 65);
     }
