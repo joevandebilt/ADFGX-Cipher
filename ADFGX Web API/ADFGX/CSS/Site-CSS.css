@@ -1,10 +1,85 @@
-#myProgress {
-    width: 100%;
-    background-color: grey;
+/* Section for the navigation Tabs */
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    width: 98%;
+    border: 15px solid #1d2a3e;
+    background-color: #243249;
+
+    padding: 20px;
+    -webkit-box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.2);
+
+    vertical-align: middle;
 }
 
-#myBar {
-    width: 1%;
-    height: 30px;
-    background-color: green;
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    font-family: 'font',sans-serif;
+    font-size: 30px;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    color: #ef4900;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    color: #fff;
+    background-color: #ef4900;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    color: #fff;
+    background-color: #ef4900;
+}
+
+/* Style the tab content */
+.tabcontent {
+    overflow-x: visible;
+    width: 100%;
+    display: none;
+    margin: 16px 0px 0px 0px;
+
+    padding: 0px;
+    border: 0px;
+
+    /*
+    padding: 0px;
+    border: 15px solid #1d2a3e;
+    border-top: none;
+    */
+}
+
+.SectionContents {
+    margin-top: 100px; 
+    display: block;
+    border: 3px solid black;
+
+    padding: 20px;
+    -webkit-box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+
+/* KeySquare CSS */
+#cmdStart {
+    float: left;
+}
+
+#cmdStop {
+    float: right;
+}
+
+#nogood {
+    float: left;
+}
+
+#yegood {
+    float: right;
 }

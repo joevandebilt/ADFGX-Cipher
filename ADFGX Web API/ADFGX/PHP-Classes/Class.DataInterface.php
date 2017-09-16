@@ -146,5 +146,24 @@ class DataInterface
         }        
         return $Dictionary;
     }
+
+    public function GetFilterText($DB)
+    {
+        $SQL = "SELECT * FROM ADFGX_Valid WHERE VAL_SCORE >= 0 AND VAL_SCORE < 3 LIMIT 1";
+        $DB->query($SQL);
+        $FilterItem = null;
+        while ($row = $DB->fetchObject())
+        {
+            $FilterItem = array("ID"=>$row->VAL_ID, "CipherText"=>$row->VAL_CIPHER_TEXT, "MatchedWords"=>$row->VAL_MATCHING_WORDS); 
+        }
+        return $FilterItem;
+    }
+
+    public function SaveFilterText($DB, $ID, $Score)
+    {
+        $SQL = "UPDATE ADFGX_Valid SET VAL_SCORE = VAL_SCORE + " . $DB->cleanString($Score) . " WHERE VAL_ID = " . $DB->cleanString($ID);
+        $DB->query($SQL);
+        return (!$DB->hasErrors());
+    }
 }
 ?>

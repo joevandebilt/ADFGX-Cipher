@@ -68,6 +68,16 @@ if (isset($_POST["Request"]))
                 $Dictionary = $DI->GetDictionary($DB);
                 $Response->ResponseObject = $Dictionary;
             }
+            elseif ($RequestObject->Command == "GetFilterText")
+            {
+                $FilterItem = $DI->GetFilterText($DB);
+                $Response->ResponseObject = $FilterItem;
+            }
+            elseif ($RequestObject->Command == "SaveFilterText")
+            {
+                $FilterItem = $DI->SaveFilterText($DB, $RequestObject->Data->ID, $RequestObject->Data->Score);
+                $Response->ResponseObject = $FilterItem;
+            }
             else
             {
                 $Response->AddErrorMessage("Command not recognised.");

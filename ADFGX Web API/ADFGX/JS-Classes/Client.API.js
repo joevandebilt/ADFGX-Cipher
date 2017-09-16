@@ -73,6 +73,18 @@ function APIGetDictionary(CallbackFunction)
 	SendJSONPacket(DataPacket, CallbackFunction);
 }
 
+function APIGetFilterText(CallbackFunction)
+{
+	var DataPacket = ConstructDataPacket("GetFilterText", null);
+	SendJSONPacket(DataPacket, CallbackFunction);
+}
+
+function APISaveFilterText(ID, Score, CallbackFunction)
+{
+	var DataPacket = ConstructDataPacket("SaveFilterText", {"ID":ID, "Score": Score});
+	SendJSONPacket(DataPacket, CallbackFunction);
+}
+
 
 /* 
 	API OPERATION FUNCTIONS 
